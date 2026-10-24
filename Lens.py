@@ -1,8 +1,8 @@
-from pathlib import Path
-import sqlite3
+from pathlib import Path    #입력 Excel, DB, 결과 파일의 경로 지정.
+import sqlite3  #데이터베이스 사용을 위한 소프트웨어 import
 
-import pandas as pd
-from openpyxl.styles import PatternFill
+import pandas as pd #Pandas 라이브러리를 pd라는 이름으로 import -> 표 형태의 데이터를 다루기 위해 사용
+from openpyxl.styles import PatternFill #Excel 셀의 배경색 지정을 위해 openpyxl.styles의 PatternFill을 import
 
 
 # 파일 위치: 이 Python 파일이 있는 폴더를 기준으로 설정
@@ -16,7 +16,7 @@ OUTPUT = RESULTS / "lens_inspection_result.xlsx"
 
 
 def check_value(item, value, lower, upper):
-    """항목 하나의 측정값을 하한·상한과 비교합니다."""
+    """항목 하나의 측정값을 하한·상한과 비교"""
     if pd.isna(value):
         return "판정불가", f"{item}: 측정값 누락"
 
@@ -36,7 +36,7 @@ def check_value(item, value, lower, upper):
 
 
 def format_inspection_results(writer, result, detail):
-    """판정 색상과 불합격 원인 측정값을 표시합니다. 재실행 시 갱신됩니다."""
+    """판정 색상과 불합격 원인 측정값을 표시합니다. 재실행 시 갱신"""
     fills = {
         "합격": PatternFill(fill_type="solid", fgColor="D9EAD3"),
         "불합격": PatternFill(fill_type="solid", fgColor="F4CCCC"),
@@ -70,8 +70,9 @@ def format_inspection_results(writer, result, detail):
 def main():
     RESULTS.mkdir(parents=True, exist_ok=True)
     # 1. Excel 읽기
-    # A:P에는 제품 정보와 측정값이 있습니다.
-    # Excel의 기존 판정·판정사유 열은 읽지 않습니다.
+    # A:P에는 제품 정보와 측정값이 존재.
+    # Excel의 기존 판정·판정사유 열은 읽지 않음.
+    # pandas.read_excel() : Excel 파일을 읽어 DataFrame이라는 행과 열이 있는 표 형태의 데이터 구조로 변환.
     measurements = pd.read_excel(
         INPUT,
         sheet_name="측정데이터",
@@ -109,7 +110,7 @@ def main():
 
     with sqlite3.connect(DB_FILE) as conn:  #DB파일에 연결. 파일이 없으면 생성.
         # 2. SQL 테이블에 저장
-        # 이 예제는 실행할 때마다 최신 데이터로 테이블을 교체합니다.
+        # 이 예제는 실행할 때마다 최신 데이터로 테이블을 교체.
         measurements.to_sql(    #테이블 생성과 데이터 삽입을 코드로 작성하는 대신 to_sql()이 테이블로 저장한다.
             "measurements", conn, if_exists="replace", index=False
         )
@@ -133,7 +134,7 @@ def main():
             unresolved = []
 
             for item in items:
-                # 공통 기준 또는 해당 제품 소재의 기준을 찾습니다.
+                # 공통 기준 또는 해당 제품 소재의 기준을 찾는다.
                 matched = rules[
                     (rules["검사항목"] == item)
                     & (

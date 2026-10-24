@@ -3,6 +3,12 @@
 Python 3.10 환경에서 Excel의 측정값과 테스트용 기준을 읽어 SQLite에 저장하고 판정합니다.
 이 기준은 프로그램 개발 실습용이며 실제 품질 인증·출하 기준이 아닙니다.
 
+## 상세 문서
+
+- [데이터 흐름](docs/data-flow.md): Excel 입력부터 검사, DB·Excel 저장, HTML 조회까지의 과정
+- [DB 명세서](docs/database-spec.md): 실제 테이블·컬럼 구조, 검사 기준, 제약조건과 예외 처리
+- [테이블 생성 SQL](docs/schema.sql): 현재 DB 구조를 재현하는 CREATE TABLE 문장 (데이터 제외)
+
 ## 구성
 - Lens.py: 검사 프로그램
 - data/lens_qualityCheck.xlsx: 기준표와 30개 측정데이터 (경도지수 제외)

@@ -31,6 +31,24 @@ PowerShell 터미널에서 실행:
 실행할 때마다 최신 데이터로 DB 테이블과 결과 Excel을 덮어씁니다.
 결과 Excel을 열어둔 경우 닫고 실행하세요.
 
+## 명령어 도움말
+
+프로젝트 폴더의 PowerShell에서 다음 명령으로 검사 실행, DB 조회, SQL 확인·내보내기 방법과 현재 파일 경로를 확인할 수 있습니다.
+`python`은 필요한 라이브러리가 설치된 Python을 사용해야 합니다.
+
+```powershell
+python .\view_db.py --help
+```
+
+`--help` 대신 `-h`, `help`, `도움말`을 입력하거나 아무 인수 없이 `python .\view_db.py`를 실행해도 같은 도움말을 표시합니다.
+도움말은 DB가 없어도 볼 수 있으며, 검사나 파일 생성, 브라우저 열기를 실행하지 않습니다.
+
+가상환경의 Python을 직접 지정하려면:
+
+```powershell
+.\.venv\Scripts\python.exe .\view_db.py --help
+```
+
 ## 환경 재생성
 가상환경 폴더는 복사하거나 이동하지 않고 새 위치에서 다시 만듭니다.
 

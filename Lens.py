@@ -102,7 +102,7 @@ def load_excel_data(input_path):
     # 1. Excel 읽기
     # A:P에는 제품 정보와 측정값이 존재.
     # Excel의 기존 판정·판정사유 열은 읽지 않음.
-    # pandas.read_excel() : Excel 파일을 읽어 DataFrame이라는 행과 열이 있는 표 형태의 데이터 구조로 변환.
+    # (pandas)pd.read_excel() : Excel 파일을 읽어 DataFrame이라는 행과 열이 있는 표 형태의 데이터 구조로 변환.
     measurements = pd.read_excel(
         input_path,
         sheet_name="측정데이터",
@@ -228,8 +228,8 @@ def run_inspection(
     with closing(sqlite3.connect(db_path)) as conn, conn:  #DB파일에 연결. 파일이 없으면 생성.
         # 2. SQL 테이블에 저장
         # 이 예제는 실행할 때마다 최신 데이터로 테이블을 교체.
-        measurements.to_sql(    #테이블 생성과 데이터 삽입을 코드로 작성하는 대신 to_sql()이 테이블로 저장한다.
-            "measurements", conn, if_exists="replace", index=False
+        measurements.to_sql(    #테이블 생성과 데이터 삽입을 코드로 작성하는 대신 to_sql()이 DataFrame을 SQL 데이터베이스에 테이블로 저장한다.
+            "measurements", conn, if_exists="replace", index=False  #테이블 이름은 measurements. 이미 존재하는 경우에는 덮어쓰고(replace), 인덱스는 저장되지 않도록(False)한다.
         )
         criteria.to_sql(
             "criteria", conn, if_exists="replace", index=False

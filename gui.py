@@ -823,9 +823,39 @@ def configure_application(app):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="렌즈 검사 GUI를 엽니다.")
-    parser.add_argument("--input", type=Path, default=INPUT, help="원본 Excel 경로")
-    parser.add_argument("--output", type=Path, default=RESULTS, help="결과 저장 폴더")
+    parser = argparse.ArgumentParser(
+        description="렌즈 검사 GUI를 엽니다. 검사는 창의 [검사 실행] 버튼으로 시작합니다.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        add_help=False,
+        epilog=rf"""실행:
+  python .\gui.py
+  .\.venv\Scripts\python.exe .\gui.py
+  python .\gui.py --input ".\data\lens_qualityCheck.xlsx" --output ".\results"
+
+--input / --output은 창에 표시할 초기 경로입니다.
+창을 열거나 경로를 지정하는 것만으로 검사를 실행하지 않습니다.
+[검사 실행]: 상단 원본 Excel로 새로 판정하고 DB·결과 Excel을 저장합니다.
+[저장된 DB 열기]: 기존 판정 결과를 읽기 전용으로 조회합니다.
+DB만 조회한 상태에서는 Excel 저장·열기 버튼을 사용할 수 없습니다.
+[SQL 내보내기]: 화면 필터와 관계없이 현재 DB 전체를 .sql 파일로 저장합니다.
+Excel 저장 실패 시에는 [Excel 저장 다시 시도]를 사용할 수 있습니다.
+GUI 표에는 HTML 파일이 필요하지 않습니다.
+
+기본 원본 Excel:
+  {INPUT}
+기본 결과 저장 폴더:
+  {RESULTS}
+GUI에서 변경한 경로는 view_db.py / export_sql.py의 기본 경로를 바꾸지 않습니다.
+별도 폴더의 결과는 GUI에서 해당 DB를 열어 조회·내보내기하세요.
+
+프로젝트 전체 도움말: python .\view_db.py --help
+--help / -h는 GUI 창이나 파일을 열지 않고 도움말만 출력합니다.
+실행 환경에는 pandas, openpyxl, PyQt6가 설치되어 있어야 합니다.
+""",
+    )
+    parser.add_argument("-h", "--help", action="help", help="도움말을 표시하고 종료")
+    parser.add_argument("--input", type=Path, default=INPUT, metavar="EXCEL", help="원본 Excel 초기 경로")
+    parser.add_argument("--output", type=Path, default=RESULTS, metavar="FOLDER", help="결과 저장 폴더 초기 경로")
     args = parser.parse_args(argv)
     app = QApplication(sys.argv[:1]) #GUI전체의 실행과 사용자 입력 처리를 관리하는 객체 생성. QApplication 클래스 : 마우스 클릭, 키보드 입력, 글꼴/스타일등 관리, 화면이 입력에 반응하도록 이벤트 루프 실행
     configure_application(app) #글꼴/색상/스타일 적용

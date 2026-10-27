@@ -13,13 +13,44 @@ from Lens import DB_FILE, INPUT, OUTPUT
 TABLES = {"측정": "measurements", "기준": "criteria",
           "결과": "inspection_results", "상세": "inspection_details"}
 
-COMMAND_HELP = r"""[1] 검사 실행 및 결과 저장
+COMMAND_HELP = r"""프로젝트 폴더의 PowerShell에서 명령을 한 줄씩 실행하세요.
+예시의 python은 pandas, openpyxl, PyQt6가 설치된 프로젝트 Python입니다.
+가상환경을 활성화하지 않았다면 python 대신 .\.venv\Scripts\python.exe를 사용하세요.
+  .\.venv\Scripts\python.exe .\view_db.py --help
+
+[1] GUI 실행
+
+  python .\gui.py
+    창을 열고 사용자 입력을 기다립니다. 자동으로 검사하지 않습니다.
+    원본 Excel과 결과 저장 폴더를 선택한 뒤 [검사 실행]을 누르세요.
+    검사와 DB·결과 Excel 저장은 Lens.py의 run_inspection()이 처리합니다.
+
+  python .\gui.py --input ".\data\lens_qualityCheck.xlsx" --output ".\results"
+    원본 Excel과 결과 폴더의 초기값을 지정하여 창을 엽니다.
+    --output은 폴더 경로이며, 검사는 [검사 실행]을 눌러야 시작합니다.
+
+  GUI에서 할 수 있는 일:
+    - 네 테이블 조회, 검색·정렬, 판정·소재 필터, 제품별 상세·사유 확인
+    - 합격 연두색, 불합격 분홍색, 불합격 원인 측정값 회색 표시
+    - SQL 구조·데이터 보기와 전체 SQL 내보내기
+    - 결과 Excel 열기, 다른 이름으로 저장, 저장 실패 시 재시도
+
+  [저장된 DB 열기]는 기존 판정 결과를 읽기 전용으로 조회합니다.
+  이후 [검사 실행]은 상단의 원본 Excel을 읽어 새로 판정합니다.
+  DB 조회만 한 상태에서는 Excel 저장·열기 버튼을 사용할 수 없습니다.
+  GUI 표는 앱 안에 표시하며 HTML 파일을 만들지 않습니다.
+  GUI에서 선택한 경로는 아래 터미널 명령의 기본 경로를 바꾸지 않습니다.
+
+[2] 터미널에서 검사 실행 및 결과 저장
 
   python .\Lens.py
-    원본 Excel을 읽고 합격·불합격·판정불가를 판정합니다.
+    기본 원본 Excel을 읽고 합격·불합격·판정불가를 판정합니다.
     DB와 결과 Excel을 생성하거나 기존 결과를 갱신합니다.
+    .sql 파일은 자동 생성하지 않습니다. [6]의 내보내기를 실행하세요.
+    DB 저장 후 Excel 저장에 실패하면 오류 사유를 출력하고 종료합니다.
+    GUI에서 실행한 검사는 Excel 저장 실패 시 재검사 없이 저장만 재시도할 수 있습니다.
 
-[2] DB 데이터 조회
+[3] DB 데이터 조회
 
   python .\view_db.py 측정
     제품 정보와 원본 측정값을 확인합니다.
@@ -38,9 +69,10 @@ COMMAND_HELP = r"""[1] 검사 실행 및 결과 저장
   python .\view_db.py 구조
     각 테이블의 컬럼 이름, 자료형, 기본키 여부 등을 확인합니다.
 
-  위 조회 명령은 기본적으로 HTML 파일을 만들고 브라우저로 엽니다.
+  위 명령은 기본 DB를 읽기 전용으로 조회합니다. 새 검사는 하지 않습니다.
+  기본적으로 HTML 파일을 만들고 연결된 브라우저 등으로 엽니다.
 
-[3] 조회 결과의 표시 방법
+[4] 조회 결과의 표시 방법
 
   python .\view_db.py 결과 --터미널
     HTML을 만들지 않고 터미널에 표를 출력합니다.
@@ -49,7 +81,7 @@ COMMAND_HELP = r"""[1] 검사 실행 및 결과 저장
     HTML 파일만 저장하고 브라우저는 열지 않습니다.
     --no-open도 같은 옵션입니다.
 
-[4] SQL 문장 확인
+[5] SQL 문장 확인
 
   python .\view_db.py create
     네 테이블의 CREATE TABLE 문장을 터미널에 출력합니다.
@@ -72,13 +104,15 @@ COMMAND_HELP = r"""[1] 검사 실행 및 결과 저장
   SQL 확인 명령은 문장을 출력하며 해당 SQL을 실행하지 않습니다.
   INSERT 문은 현재 데이터의 복원용이며 과거 실행 기록이 아닙니다.
 
-[5] SQL 파일로 내보내기
+[6] SQL 파일로 내보내기
 
   python .\export_sql.py
-    네 테이블의 구조와 현재 데이터를 lens_quality.sql로 저장합니다.
-    입력 데이터와 검사 결과가 모두 포함됩니다.
+    기본 DB의 구조와 현재 데이터를 같은 폴더의 lens_quality.sql로 저장합니다.
+    입력 데이터와 검사 결과가 모두 포함됩니다. 기존 SQL 파일은 갱신합니다.
+    다른 경로의 DB를 내보내려면 GUI에서 해당 DB를 열고 [SQL 내보내기]를 누르세요.
+    GUI에서도 SQL 파일은 [SQL 내보내기]를 실행할 때 저장합니다.
 
-[6] 도움말
+[7] 도움말
 
   python .\view_db.py --help
   python .\view_db.py -h
@@ -86,32 +120,59 @@ COMMAND_HELP = r"""[1] 검사 실행 및 결과 저장
   python .\view_db.py help
   python .\view_db.py 도움말
 
-  다섯 명령은 같은 도움말을 표시하고 종료합니다.
-  DB가 없어도 도움말을 볼 수 있습니다.
-  도움말은 검사·DB 조회·파일 생성·브라우저 열기를 실행하지 않습니다.
+  위 다섯 명령은 같은 프로젝트 전체 도움말을 표시하고 종료합니다.
+  각 실행 파일의 도움말:
+  python .\gui.py --help
+  python .\Lens.py --help
+  python .\export_sql.py --help
 
-이용 순서:
-  프로젝트 폴더에서 필요한 라이브러리가 설치된 Python으로 실행하세요.
-  처음에는 Lens.py로 DB를 만든 뒤 조회·내보내기를 실행하세요.
-  DB를 갱신하면 HTML 조회와 SQL 내보내기도 다시 실행해야 합니다.
+  각 파일의 --help는 -h로 줄여 쓸 수 있습니다.
+  인수 생략/help/도움말 방식은 view_db.py에서만 지원합니다.
+  gui.py는 인수 없이 실행하면 창을 열고, Lens.py는 검사,
+  export_sql.py는 SQL 내보내기를 실행합니다.
+  도움말은 DB가 없어도 볼 수 있으며 필요한 라이브러리는 설치되어 있어야 합니다.
+  도움말은 검사·DB 조회·결과 파일 생성·GUI/브라우저 열기를 실행하지 않습니다.
+
+[8] 파일별 역할과 이용 순서
+
+  gui.py          : GUI 시작점. 버튼과 검사·조회·저장 기능을 연결합니다.
+  Lens.py         : 검사 및 DB·결과 Excel 저장. GUI와 터미널이 함께 사용합니다.
+  table_model.py  : GUI 표의 값·색상·정렬·필터 담당. 따로 실행할 필요가 없습니다.
+  view_db.py      : 전체 도움말, 기본 DB의 HTML/터미널 조회와 SQL 확인.
+  export_sql.py   : DB를 SQL 파일로 저장. GUI와 터미널이 함께 사용합니다.
+  requirements.txt / requirements-lock.txt:
+    필요한 라이브러리 목록입니다. 다른 컴퓨터에서는 둘 중 하나로 설치합니다.
+    python -m pip install -r requirements.txt
+    같은 버전의 전체 의존성을 재현하려면 requirements-lock.txt를 선택하세요.
+
+  DB가 없으면 Lens.py 또는 GUI의 [검사 실행]으로 먼저 DB를 만드세요.
+  기존 DB가 있다면 재검사 없이 조회·내보내기를 실행할 수 있습니다.
+  view_db.py와 export_sql.py는 아래 기본 DB를 사용합니다.
+  GUI에서 다른 폴더에 저장한 DB는 [저장된 DB 열기]로 선택하여 확인하세요.
+  DB를 갱신하면 기존 HTML 조회와 SQL 내보내기도 다시 실행해야 합니다.
+  다른 파일에서 import하는 것만으로 검사·내보내기나 GUI 실행을 시작하지 않습니다.
 """
 
 
 def build_help_text():
     """명령 예시와 현재 설정의 경로를 안내합니다. 파일을 읽거나 만들지 않습니다."""
     return COMMAND_HELP + f"""
-[7] 현재 파일 경로
+[9] 기본 파일 경로
 
+  프로젝트 폴더:
+    {INPUT.parent.parent}
   원본 Excel:
     {INPUT}
-  DB (Lens.py에서 생성):
+  DB (터미널 검사 또는 GUI 기본 결과 폴더):
     {DB_FILE}
-  결과 Excel (Lens.py에서 생성):
+  결과 Excel (터미널 검사 또는 GUI 기본 결과 폴더):
     {OUTPUT}
-  HTML (view_db.py에서 생성):
+  HTML (view_db.py의 일반 조회):
     {DB_FILE.parent / "조회화면" / "<명령>.html"}
-  SQL (export_sql.py에서 생성):
+  SQL (export_sql.py의 기본 저장 위치):
     {DB_FILE.with_suffix(".sql")}
+
+  GUI에서 경로를 변경했다면 실제 조회·저장 경로는 GUI 화면에서 확인하세요.
 """
 
 
@@ -223,7 +284,7 @@ def main(argv=None):
         parser.print_help()
         return
     if not DB_FILE.is_file():
-        parser.exit(1,f"DB 파일이 없습니다: {DB_FILE}\nLens.py를 먼저 실행하세요.\n")
+        parser.exit(1,f"DB 파일이 없습니다: {DB_FILE}\nLens.py를 실행하거나 GUI의 기본 결과 폴더에서 검사를 실행하세요.\n")
     try:
         with closing(sqlite3.connect(DB_FILE.resolve().as_uri()+"?mode=ro",uri=True)) as conn:
             if args.command in ("create", "insert", "sql"):

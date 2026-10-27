@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import sqlite3
 from tempfile import TemporaryDirectory
 from typing import Callable
+import argparse
 
 import pandas as pd #Pandas 라이브러리를 pd라는 이름으로 import -> 표 형태의 데이터를 다루기 위해 사용
 from openpyxl.styles import PatternFill #Excel 셀의 배경색 지정을 위해 openpyxl.styles의 PatternFill을 import
@@ -347,8 +348,36 @@ def run_inspection(
 
 
 #터미널에서 실행 시 검사시작&결과요약
-def main():
+def main(argv=None):
     """기존 터미널 실행에서는 기본 경로를 사용하고 요약을 출력합니다."""
+    parser = argparse.ArgumentParser(
+        description="원본 Excel을 검사하고 SQLite DB와 결과 Excel을 저장합니다.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        add_help=False,
+        epilog=rf"""실행:
+  python .\Lens.py
+  .\.venv\Scripts\python.exe .\Lens.py
+
+인수 없이 실행하면 기본 경로로 검사를 시작합니다.
+같은 경로의 기존 DB 테이블과 결과 Excel은 최신 결과로 갱신합니다.
+.sql 파일은 자동 생성하지 않습니다. python .\export_sql.py로 내보내세요.
+Excel 저장에 실패해도 DB 저장은 완료되었을 수 있으며, 오류 사유를 출력합니다.
+경로 선택과 Excel 저장 재시도는 GUI에서 사용할 수 있습니다.
+
+기본 원본 Excel:
+  {INPUT}
+기본 DB:
+  {DB_FILE}
+기본 결과 Excel:
+  {OUTPUT}
+
+GUI 실행: python .\gui.py
+프로젝트 전체 도움말: python .\view_db.py --help
+--help / -h는 검사나 결과 파일 생성을 실행하지 않고 종료합니다.
+""",
+    )
+    parser.add_argument("-h", "--help", action="help", help="도움말을 표시하고 종료")
+    parser.parse_args(argv)
     report = run_inspection()
     print(report.result["판정"].value_counts().to_string())
     print(f"\nDB 저장: {report.db_path}")

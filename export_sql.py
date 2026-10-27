@@ -1,5 +1,6 @@
 """SQLite DB를 SQL 파일로 내보냅니다. import만 하면 내보내기는 실행하지 않습니다."""
 
+import argparse
 from contextlib import closing
 from pathlib import Path
 import sqlite3
@@ -44,8 +45,33 @@ def export_sql(db_path=None, output_path=None) -> Path:
     return output
 
 
-def main():
+def main(argv=None):
     """PowerShell에서 직접 실행하면 기본 DB를 내보내고 저장 경로를 출력합니다."""
+    parser = argparse.ArgumentParser(
+        description="기존 SQLite DB의 구조와 현재 데이터를 SQL 파일로 내보냅니다.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        add_help=False,
+        epilog=r"""실행:
+  python .\export_sql.py
+  .\.venv\Scripts\python.exe .\export_sql.py
+
+인수 없이 실행하면 Lens.py의 DB_FILE에 지정된 기본 DB를 읽습니다.
+같은 폴더의 lens_quality.sql을 생성하거나 갱신합니다.
+측정 데이터, 검사 기준, 검사 결과, 항목별 상세를 포함한 DB 전체를 내보냅니다.
+입력 DB는 읽기 전용으로 열며 새 검사를 실행하지 않습니다.
+출력은 현재 데이터를 복원하는 SQL이며 과거 SQL 실행 기록은 아닙니다.
+
+기본 DB가 없다면 Lens.py 또는 GUI의 기본 결과 폴더에서 먼저 검사하세요.
+다른 경로의 DB는 GUI의 [저장된 DB 열기]로 선택한 뒤 [SQL 내보내기]를 누르세요.
+GUI에서 선택한 경로는 이 터미널 명령의 기본 경로를 바꾸지 않습니다.
+
+GUI 실행: python .\gui.py
+프로젝트 전체 도움말 및 기본 경로: python .\view_db.py --help
+--help / -h는 DB 조회나 SQL 파일 생성을 실행하지 않고 종료합니다.
+""",
+    )
+    parser.add_argument("-h", "--help", action="help", help="도움말을 표시하고 종료")
+    parser.parse_args(argv)
     output = export_sql()
     print(f"SQL 파일 저장: {output}")
 

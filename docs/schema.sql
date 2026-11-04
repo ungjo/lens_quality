@@ -1,13 +1,17 @@
--- 렌즈 검사 프로젝트: 현재 SQLite DB의 테이블 구조
--- 확인일: 2026-10-24
+-- 렌즈 품질 검사: 확인한 SQLite DB의 테이블 구조
+-- 문서 버전: 2.0 / 확인일: 2026-10-29 (Asia/Seoul)
+-- 기준 코드: 50ed1c379945d9b2ab6c0c0233e3e9f2e4cccec3
 -- 출처: ../../resources/lens_quality/outputs/results/lens_quality.db
--- 위 경로는 프로젝트 루트(lens_quality)를 기준으로 합니다.
--- sqlite_master에 저장된 CREATE TABLE 문을 기준으로 작성했습니다.
--- 데이터(INSERT), 기본키, 외래키, NOT NULL, CHECK, 별도 인덱스는 추가하지 않았습니다.
--- 빈 SQLite DB에 실행하면 아래 네 개의 빈 테이블을 만듭니다.
--- 이미 같은 테이블이 있으면 오류가 나며, 기존 테이블을 삭제하거나 덮어쓰지 않습니다.
--- Lens.py는 이 파일을 실행하지 않습니다. 실제 테이블은 DataFrame.to_sql()로 만듭니다.
--- 원본 데이터의 자료형이 바뀌면 to_sql()이 추론하는 DB 자료형도 달라질 수 있습니다.
+-- 위 경로는 프로젝트 루트(workspace/lens_quality) 기준입니다.
+-- DB SHA-256: 4e4c27d6f1c51b79e9205011c8f015491c892664707c0e67a50e225ae8f0e5f6
+-- sqlite_master에 저장된 CREATE TABLE 정의를 사용했습니다.
+-- 빈 SQLite DB에 실행하면 데이터 없는 4개 테이블(총 47개 컬럼)을 만듭니다.
+-- INSERT, PRIMARY KEY, FOREIGN KEY, UNIQUE, NOT NULL, CHECK, DEFAULT,
+-- 별도 인덱스는 추가하지 않았습니다. 모든 컬럼은 구조상 NULL을 허용합니다.
+-- 이미 같은 테이블이 있으면 CREATE TABLE 오류가 나며, 기존 테이블을 삭제하지 않습니다.
+-- Lens.py는 이 파일을 실행하지 않고 DataFrame.to_sql(if_exists="replace")로 저장합니다.
+-- to_sql()의 자료형은 입력값에 따라 추론되므로 재생성 시 이 구조와 달라질 수 있습니다.
+-- 값·단위·판정 규칙은 database-spec.md, 처리 순서는 data-flow.md를 참고하세요.
 
 CREATE TABLE "measurements" (
   "제품번호" TEXT,

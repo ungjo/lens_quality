@@ -5,8 +5,8 @@ Python 3.10 환경에서 Excel의 측정값과 테스트용 기준을 읽어 SQL
 
 ## 상세 문서
 
-- [데이터 흐름](docs/data-flow.md): Excel 입력부터 검사, DB·Excel 저장, HTML 조회까지의 과정
-- [DB 명세서](docs/database-spec.md): 실제 테이블·컬럼 구조, 검사 기준, 제약조건과 예외 처리
+- [데이터 흐름](docs/data-flow.md): GUI·터미널의 검사, DB 조회, Excel 재저장, HTML·SQL 생성 과정
+- [데이터·DB 명세서](docs/database-spec.md): Excel 입력 범위, 4개 테이블의 컬럼·단위, 판정 규칙, 오류 처리와 검증 결과
 - [테이블 생성 SQL](docs/schema.sql): 현재 DB 구조를 재현하는 CREATE TABLE 문장 (데이터 제외)
 
 ## 구성

@@ -189,7 +189,7 @@ C:\Users\사용자이름\Downloads\lens_quality-main
 | Visual Studio Code | 프로젝트 폴더·코드·터미널을 한곳에서 사용 | [VSCode 공식 다운로드](https://code.visualstudio.com/download) |
 | VSCode의 Python 확장 | 프로젝트의 Python 인터프리터 선택 | VSCode에서 `Ctrl + Shift + X` → `Python` 검색 → 게시자가 **Microsoft**인 확장 설치 |
 
-새 PC의 설치 예시는 **Python 3.13, 일반 Windows x64 PC용 64비트 버전**을 기준으로 설명합니다. Python 다운로드 페이지에서 3.13 계열의 **Windows installer (64-bit)**를 선택하세요. 설치 화면에서 **Add python.exe to PATH**를 선택하고, `pip`와 Python Launcher(`py`)를 함께 설치합니다. 설치가 끝나면 VSCode를 다시 열어 주세요.
+새 PC의 설치 예시는 **Python 3.13, 일반 Windows x64 PC용 64비트 버전**을 기준으로 설명합니다. Python 다운로드 페이지에서 3.13 계열의 <strong>Windows installer (64-bit)</strong>를 선택하세요. 설치 화면에서 **Add python.exe to PATH**를 선택하고, `pip`와 Python Launcher(`py`)를 함께 설치합니다. 설치가 끝나면 VSCode를 다시 열어 주세요.
 
 > **버전 확인 범위:** 이 프로젝트를 개발하고 실행을 확인한 환경은 Python 3.10.11입니다. Python 3.10은 지원이 종료되어 새 설치 예시는 3.13으로 구분했습니다. 현재 라이브러리의 배포 정보를 바탕으로 선택한 버전이며, Python 3.13에서 프로그램 전체의 실행 검증은 아직 완료하지 않았습니다. 기존에 정상 동작하는 환경을 사용한다면 아래의 **기존 Python 사용 방법**을 참고하세요.
 >
@@ -260,7 +260,7 @@ py -3.13 --version
 python --version
 ```
 
-다음 5단계의 `py -3.13 -m venv .venv` 대신 **`python -m venv .venv`**를 한 번 실행합니다. 그 뒤의 설치·실행 명령은 동일합니다.
+다음 5단계의 `py -3.13 -m venv .venv` 대신 <strong><code>python -m venv .venv</code></strong>를 한 번 실행합니다. 그 뒤의 설치·실행 명령은 동일합니다.
 
 `py`와 `python`은 서로 다른 Python을 가리킬 수 있습니다. 가상환경을 만들 때 선택한 버전이 맞는지는 `.\.venv\Scripts\python.exe --version`으로 확인하세요.
 
@@ -292,8 +292,8 @@ py -3.13 -m venv .venv
 
 1. `Ctrl + Shift + P`를 누릅니다.
 2. **Python: Select Interpreter**를 검색해 선택합니다.
-3. 현재 프로젝트의 **`.venv\Scripts\python.exe`**를 선택합니다.
-4. 목록에 없다면 **Enter interpreter path(인터프리터 경로 입력)** → **Find(찾기)**를 선택하고 프로젝트 안의 `.venv` → `Scripts` → `python.exe`를 찾습니다.
+3. 현재 프로젝트의 <strong><code>.venv\Scripts\python.exe</code></strong>를 선택합니다.
+4. 목록에 없다면 **Enter interpreter path(인터프리터 경로 입력)** → <strong>Find(찾기)</strong>를 선택하고 프로젝트 안의 `.venv` → `Scripts` → `python.exe`를 찾습니다.
 
 이 설정은 VSCode에서 실행·디버깅할 때 사용할 Python을 지정합니다. 라이브러리를 설치하는 기능은 아니므로 다음 7단계도 진행해야 합니다.
 
@@ -337,7 +337,7 @@ py -3.13 -m venv .venv
 ```
 
 - `gui.py`: 버튼과 표가 있는 프로그램 창을 엽니다.
-- `--output ".\results"`: **현재 터미널 폴더 안의 `results`**를 결과 저장 위치로 지정합니다.
+- `--output ".\results"`: <strong>현재 터미널 폴더 안의 <code>results</code></strong>를 결과 저장 위치로 지정합니다.
 
 창을 연 것만으로 검사가 시작되지는 않습니다. GUI에서 다음 순서대로 진행하세요.
 

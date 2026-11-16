@@ -191,9 +191,29 @@ C:\Users\사용자이름\Downloads\lens_quality-main
 
 새 PC의 설치 예시는 **Python 3.13, 일반 Windows x64 PC용 64비트 버전**을 기준으로 설명합니다. Python 다운로드 페이지에서 3.13 계열의 <strong>Windows installer (64-bit)</strong>를 선택하세요. 설치 화면에서 **Add python.exe to PATH**를 선택하고, `pip`와 Python Launcher(`py`)를 함께 설치합니다. 설치가 끝나면 VSCode를 다시 열어 주세요.
 
-> **버전 확인 범위:** 이 프로젝트를 개발하고 실행을 확인한 환경은 Python 3.10.11입니다. Python 3.10은 지원이 종료되어 새 설치 예시는 3.13으로 구분했습니다. 현재 라이브러리의 배포 정보를 바탕으로 선택한 버전이며, Python 3.13에서 프로그램 전체의 실행 검증은 아직 완료하지 않았습니다. 기존에 정상 동작하는 환경을 사용한다면 아래의 **기존 Python 사용 방법**을 참고하세요.
+> **버전 확인 범위:** 초기 개발 환경은 Python 3.10.11이며, 2026-11-17에 **Windows 10 64비트·Python 3.13.18**에서도 샘플 검사와 주요 GUI 기능을 확인했습니다. `requirements.txt`와 `requirements-lock.txt`를 별도 가상환경에 각각 설치하여 모두 통과했습니다. Python 3.10은 지원이 종료되어 새 설치 예시는 3.13으로 안내합니다. 기존에 정상 동작하는 환경을 사용한다면 아래의 **기존 Python 사용 방법**을 참고하세요.
 >
 > 근거: [Python 3.10 지원 상태](https://www.python.org/downloads/release/python-31011/) · [pandas 배포 파일](https://pypi.org/project/pandas/2.3.3/#files) · [PyQt6 설치 조건](https://pypi.org/project/PyQt6/6.11.0/) · [Python Windows 설치 안내](https://docs.python.org/3.13/using/windows.html)
+
+<details>
+<summary>Python 3.13 검증 결과와 확인 범위 (2026-11-17)</summary>
+
+검증 환경은 Windows 10 64비트, 별도 폴더에 설치한 CPython 3.13.18입니다. 기존 가상환경을 복사하지 않고 새로 만들었으며, 프로그램 코드와 라이브러리 목록을 수정하지 않고 검사했습니다.
+
+| 확인 항목 | 결과 |
+|---|---|
+| `requirements.txt` 설치·의존성 검사 | 통과 |
+| `requirements-lock.txt` 별도 설치·의존성 검사 | 통과 |
+| 원본 Excel의 샘플 검사 | 전체 30개 / 합격 14개 / 불합격 16개 / 판정불가 0개 |
+| SQLite 저장·무결성 | 4개 테이블: 30·15·30·390행 |
+| 결과 Excel | 3개 시트, 판정·불합격 원인 셀 색상 정상 |
+| GUI 검사·조회 | 작업 스레드, 검색·필터·제품번호 정렬·상세 표시 정상 |
+| GUI Excel·SQL 내보내기 | 저장 성공, SQL 복원 후 전체 데이터 일치 |
+| 터미널 조회·도움말 | DB·SQL 문장 조회, HTML 생성, 도움말 정상 |
+
+GUI는 Windows Qt 환경에서 자동 검증했습니다. `gui.py`의 시작 옵션과 이벤트 루프는 화면을 표시하지 않는 방식으로도 확인했습니다. 직접 마우스·키보드 조작, 실제 파일 선택 대화상자, 외부 Excel 연결, 모든 오류·재시도 경로는 검증 범위에 포함하지 않았습니다. Python 공식 설치 프로그램·Launcher 등록·VSCode 설정 화면과 다른 Python 3.13 패치 버전까지 확인한 것은 아닙니다.
+
+</details>
 
 프로그램의 검사, GUI 표 조회, Excel 파일 생성에는 Microsoft Excel이나 별도 DB 서버가 필요하지 않습니다. 다만 **결과 Excel 열기** 버튼으로 `.xlsx` 파일을 직접 열려면 Excel처럼 해당 파일을 열 수 있는 연결 프로그램이 필요합니다.
 
@@ -376,6 +396,7 @@ GUI가 실행 중인 동안 해당 터미널은 프로그램 종료를 기다립
 | `.\.venv\Scripts\python.exe`를 찾을 수 없음 | 현재 폴더가 맞는지, 5단계에서 가상환경 생성이 완료됐는지 확인합니다. 다른 PC에서 가져온 가상환경은 새로 만들어야 합니다. |
 | `No module named 'pandas'`, `'openpyxl'`, `'PyQt6'` | 7단계 설치 명령과 확인 명령을 실행합니다. GUI도 같은 `.\.venv\Scripts\python.exe`로 실행합니다. |
 | `Python: Select Interpreter`가 보이지 않음 | VSCode에 게시자가 Microsoft인 Python 확장을 설치합니다. |
+| PyQt6 설치 중 긴 파일 경로와 함께 `No such file or directory`가 나옴 | Windows 경로 길이 제한일 수 있습니다. 프로젝트를 `C:\work\lens_quality`처럼 짧은 경로로 옮기고 가상환경을 새로 만든 뒤 다시 설치합니다. |
 | `Lens.py`의 `BASE.parents[1]`에서 `IndexError`가 나옴 | 프로젝트가 드라이브 바로 아래에 있지 않은지 확인합니다. 다운로드·문서 폴더 안으로 옮긴 뒤 가상환경을 다시 만듭니다. |
 | 원본 Excel을 찾지 못함 | GUI의 **파일 선택**으로 프로젝트의 `data/lens_qualityCheck.xlsx`를 지정합니다. |
 | 결과 Excel 저장 시 `PermissionError` 또는 저장 실패가 나옴 | 열려 있는 결과 Excel을 닫고 저장 폴더에 쓰기 권한이 있는지 확인한 뒤 **Excel 저장 다시 시도**를 누릅니다. |

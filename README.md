@@ -8,6 +8,16 @@ QR 코드로 방문했다면 아래의 **실행 화면 → 판정 예시 → 단
 
 > 제공된 제품 데이터와 검사 기준은 프로그램 개발 실습용입니다. 실제 품질 인증·출하 기준으로 검증된 값은 아니며, 경도지수는 검사 대상에서 제외했습니다.
 
+## QR 코드로 프로젝트 공유하기
+
+<a href="https://github.com/ungjo/lens_quality">
+  <img src="docs/images/lens_quality_github_qr.png" alt="GitHub 렌즈 검사 프로젝트로 연결되는 QR 코드" width="246" height="246">
+</a>
+
+휴대폰 카메라로 QR 코드를 스캔하면 이 GitHub 프로젝트 페이지가 열립니다. 발표자료나 포스터에는 아래 원본 이미지 파일을 내려받아 사용하세요.
+
+[프로젝트 페이지 열기](https://github.com/ungjo/lens_quality) · [QR 코드 PNG 원본](docs/images/lens_quality_github_qr.png) · [QR 코드 SVG 원본](docs/images/lens_quality_github_qr.svg)
+
 ## 프로그램으로 할 수 있는 일
 
 - Excel의 측정값과 기준표를 읽어 제품을 검사합니다.

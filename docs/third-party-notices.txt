@@ -1,0 +1,19 @@
+Third-party software notices
+
+This application bundles CPython, pandas, NumPy, openpyxl, PyQt6, Qt and their
+dependencies. Installed versions are recorded in BUILD-INFO.json. License texts
+and package metadata are copied from the build environment into licenses/.
+Build-time tools may also appear there; their inclusion does not mean that the
+tool itself is required on the recipient's computer.
+
+PyQt6 is offered under GPLv3 or a Riverbank commercial license. The PyPI wheels
+used for this build are the GPL version and include the corresponding LGPL Qt
+libraries. Free/demo use is not a separate licensing exemption.
+https://www.riverbankcomputing.com/software
+https://www.riverbankcomputing.com/static/Docs/PyQt6/installation.html
+https://www.qt.io/licensing/open-source-lgpl-obligations
+
+Application source for this build: source/lens_quality-source.zip
+Project and build instructions: https://github.com/ungjo/lens_quality
+Upstream source locations and license declarations are recorded in the copied
+METADATA.txt files. The original licenses of third-party components apply.

@@ -154,6 +154,17 @@ PyQt6로 파일 선택, 검사 실행, 검색·필터·정렬, 제품별 상세 
 
 관련 파일: [gui.py — 화면과 버튼](gui.py) · [table_model.py — 표 표시](table_model.py)
 
+## Windows 실행 파일로 체험하기
+
+`LensQuality-windows-x64.zip` 배포 파일을 받았다면 **모두 압축 풀기 → `LensQuality.exe` 더블클릭 → 검사 실행** 순서로 체험할 수 있습니다. Python이나 VSCode를 설치할 필요가 없습니다. 실행 파일과 같은 폴더의 `_internal`도 함께 보관하세요.
+
+샘플 Excel이 포함되어 있으며, 기본 결과는 `C:\Users\사용자이름\LensQuality\results`에 저장됩니다. 사용자 폴더 위치는 Windows 계정 설정에 따라 다를 수 있고, GUI에서 다른 저장 폴더를 선택할 수도 있습니다. 이 배포판은 프로그램의 동작과 제작 아이디어를 공유하는 데모입니다.
+
+GitHub의 **Code → Download ZIP**은 아래 방법으로 실행하는 **소스 코드**를 내려받는 기능입니다. Windows 실행 파일 배포 ZIP과는 별개입니다.
+
+- [실행 파일 사용 안내](docs/exe-quickstart.txt)
+- [개발자용 PowerShell 빌드 방법](docs/windows-distribution.md)
+
 ## 내 컴퓨터에서 실행하기
 
 아래 안내는 **Windows PC에서 ZIP 파일을 내려받아 VSCode와 PowerShell로 실행하는 방법**입니다. 휴대폰으로 QR 코드를 찍었다면, 연결된 [프로젝트 페이지](https://github.com/ungjo/lens_quality)를 실행할 PC에서도 열어 주세요.

@@ -811,6 +811,19 @@ class LensWindow(QMainWindow):
         layout = QVBoxLayout(dialog)
         text = QPlainTextEdit()
         text.setReadOnly(True)
+        # 배포판 사용자는 Python 명령 대신 실행 파일을 여는 방법을 안내받습니다.
+        launch_help = (
+            "배포판 실행: 압축을 모두 푼 뒤 LensQuality.exe를 더블클릭하세요.\n"
+            "같은 폴더의 _internal 폴더도 함께 보관해야 합니다. Python 설치는 필요하지 않습니다.\n"
+            f"기본 결과 폴더: {RESULTS}\n"
+            "소스 코드와 제작 과정: https://github.com/ungjo/lens_quality"
+            if getattr(sys, "frozen", False)
+            else
+            "PowerShell 실행: .\\.venv\\Scripts\\python.exe .\\gui.py\n"
+            "터미널 검사: python .\\Lens.py\n"
+            "터미널 조회: python .\\view_db.py --help\n"
+            "터미널 SQL 내보내기: python .\\export_sql.py"
+        )
         text.setPlainText(
             "1. 원본 Excel과 결과 저장 폴더를 선택한 뒤 [검사 실행]을 누릅니다.\n"
             "   측정데이터/기준표 시트를 읽어 판정하며, DB와 결과 Excel을 저장합니다.\n"
@@ -830,10 +843,7 @@ class LensWindow(QMainWindow):
             "   [Excel 저장 다시 시도]에서 다른 이름을 선택하세요.\n\n"
             "작업 중에는 중복 실행과 창 닫기를 잠시 막습니다. 완료된 뒤 닫아주세요.\n"
             "저장 위치를 위에서 바꿔도 현재 조회한 DB와 열기 버튼의 대상은 유지됩니다.\n\n"
-            "PowerShell 실행: .\\.venv\\Scripts\\python.exe .\\gui.py\n"
-            "터미널 검사: python .\\Lens.py\n"
-            "터미널 조회: python .\\view_db.py --help\n"
-            "터미널 SQL 내보내기: python .\\export_sql.py"
+            + launch_help
         )
         layout.addWidget(text)
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Close)

@@ -1,0 +1,3 @@
+# 실행 파일을 만드는 개발 PC에서만 설치합니다.
+-r requirements-lock.txt
+pyinstaller==6.22.3

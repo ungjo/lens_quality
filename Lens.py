@@ -7,6 +7,7 @@ import sqlite3
 from tempfile import TemporaryDirectory
 from typing import Callable
 import argparse
+import sys
 
 import pandas as pd #Pandas 라이브러리를 pd라는 이름으로 import -> 표 형태의 데이터를 다루기 위해 사용
 from openpyxl.styles import PatternFill #Excel 셀의 배경색 지정을 위해 openpyxl.styles의 PatternFill을 import
@@ -17,7 +18,12 @@ BASE = Path(__file__).resolve().parent
 
 INPUT = BASE / "data" / "lens_qualityCheck.xlsx"
 
-RESULTS = BASE.parents[1] / "resources" / "lens_quality" / "outputs" / "results"
+# PyInstaller로 만든 .exe는 개발 폴더가 없어도 사용자 폴더에 결과를 저장합니다.
+# 원본 Excel은 __file__ 기준의 data 폴더에서 읽으므로 배포 파일에도 함께 포함합니다.
+if getattr(sys, "frozen", False):
+    RESULTS = Path.home() / "LensQuality" / "results"
+else:
+    RESULTS = BASE.parents[1] / "resources" / "lens_quality" / "outputs" / "results"
 DB_FILE = RESULTS / "lens_quality.db"
 OUTPUT = RESULTS / "lens_inspection_result.xlsx"
 
